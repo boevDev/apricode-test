@@ -26,6 +26,10 @@ class TaskList {
     this.list = this.list.filter((item: TaskType) => item.id !== id);
   }
 
+  // editTask(id?: number) {
+  //   this.list.
+  // }
+
   setShowDescription(id?: number) {
     this.showDescription = id;
   }

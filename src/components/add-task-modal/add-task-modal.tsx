@@ -74,7 +74,7 @@ export const AddTaskModal: React.FC<Props> = ({ isOpen = false, onClose }) => {
           </div>
 
           <button
-            className='text-white w-full font-bold text-lg bg-emerald-400 hover:bg-emerald-500 transition-colors mt-4 p-4 rounded-md'
+            className='text-white w-full font-bold text-lg bg-emerald-500 hover:bg-emerald-600 transition-colors mt-4 p-4 rounded-md'
             type='submit'
           >
             Добавить задачу

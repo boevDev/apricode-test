@@ -16,7 +16,7 @@ export const Task: React.FC<Props> = ({ children, id }) => {
       }}
       className={`font-medium text-lg flex flex-row gap-2 justify-between items-center w-full hover:bg-slate-200 rounded-md p-2 cursor-pointer ease-out duration-75 ${style.container}`}
     >
-      <div className='flex flex-row gap-2 items-center'>
+      <div className='flex flex-row gap-2 items-center w-full'>
         <ChevronRight size={18} />
         {children}
       </div>
