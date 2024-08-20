@@ -1,6 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import './App.css';
-import { AddTaskModal, Task, TasksList } from './components';
+import {
+  AddTaskModal,
+  Task,
+  TasksList,
+  ThemeSwithcerButton,
+} from './components';
 import taskList, { TaskType } from './store/task-list';
 import { useState } from 'react';
 import { Pencil, Plus, X } from 'lucide-react';
@@ -65,6 +70,7 @@ const App = observer(() => {
           )}
         </div>
       </div>
+      <ThemeSwithcerButton />
       <AddTaskModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
       <div id='modal'></div>
     </div>
