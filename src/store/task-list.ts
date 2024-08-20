@@ -22,6 +22,10 @@ class TaskList {
     });
   }
 
+  deleteTask(id?: number) {
+    this.list = this.list.filter((item: TaskType) => item.id !== id);
+  }
+
   setShowDescription(id?: number) {
     this.showDescription = id;
   }

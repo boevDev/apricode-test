@@ -1,4 +1,4 @@
-import { ChevronRight, X } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import React from 'react';
 import style from './style.module.scss';
 import taskList from '../../store/task-list';
@@ -20,11 +20,6 @@ export const Task: React.FC<Props> = ({ children, id }) => {
         <ChevronRight size={18} />
         {children}
       </div>
-      <button
-        className={`bg-red-300 hover:bg-red-400 active:bg-red-500 p-1 rounded-md ease-out duration-75 ${style.close}`}
-      >
-        <X size={18} />
-      </button>
     </button>
   );
 };

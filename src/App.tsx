@@ -3,6 +3,7 @@ import './App.css';
 import { AddTaskModal, Task, TasksList } from './components';
 import taskList, { TaskType } from './store/task-list';
 import { useState } from 'react';
+import { X } from 'lucide-react';
 
 const showDescription = (): TaskType | undefined => {
   return taskList.list.find(
@@ -29,8 +30,22 @@ const App = observer(() => {
 
           <button onClick={() => setIsOpen(true)}>Добавить задачу</button>
         </div>
-        <div className='flex flex-1 flex-col bg-slate-400 rounded-e-md h-full p-4'>
+        <div className='flex flex-1 flex-col bg-slate-400 rounded-e-md h-full p-4 relative'>
           {showDescription()?.description}
+          {!showDescription() ? null : (
+            <button
+              onClick={() => taskList.deleteTask(showDescription()?.id)}
+              className='flex flex-row flex-nowrap 
+                gap-2 items-center justify-center
+                absolute bottom-2 right-2
+              bg-red-500 hover:bg-red-600
+                rounded text-white
+                w-full max-w-64 p-2'
+            >
+              <X size={16} />
+              Удалить задачу
+            </button>
+          )}
         </div>
       </div>
       <AddTaskModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
