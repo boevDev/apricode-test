@@ -4,7 +4,7 @@ import style from './style.module.scss';
 import taskList from '../../store/task-list';
 
 interface Props {
-  id?: number;
+  id: string;
   children?: string;
 }
 

@@ -1,36 +1,38 @@
 import { makeAutoObservable } from 'mobx';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface TaskType {
-  id?: number;
-  title?: string;
-  description?: string;
+  id: string;
+  title: string;
+  description: string;
+  subTaskIDs?: string[];
 }
 
 class TaskList {
-  list: object[] = [];
-  showDescription?: number = undefined;
+  list: TaskType[] = [];
+  showDescription?: string;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  addTask(task: TaskType) {
+  addTask(task: Omit<TaskType, 'id'>) {
     this.list.push({
-      id: this.list.length + 1,
+      id: uuidv4(),
       title: task.title,
       description: task.description,
     });
   }
 
-  deleteTask(id?: number) {
-    this.list = this.list.filter((item: TaskType) => item.id !== id);
+  deleteTask(id: string) {
+    this.list = this.list.filter((item) => item.id !== id);
   }
 
   // editTask(id?: number) {
   //   this.list.
   // }
 
-  setShowDescription(id?: number) {
+  setShowDescription(id: string) {
     this.showDescription = id;
   }
 }
