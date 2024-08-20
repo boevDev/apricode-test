@@ -3,7 +3,7 @@ import './App.css';
 import { AddTaskModal, Task, TasksList } from './components';
 import taskList, { TaskType } from './store/task-list';
 import { useState } from 'react';
-import { X } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 
 const showDescription = (): TaskType | undefined => {
   return taskList.list.find(
@@ -27,8 +27,13 @@ const App = observer(() => {
               ))}
             </TasksList>
           )}
-
-          <button onClick={() => setIsOpen(true)}>Добавить задачу</button>
+          <button
+            className='flex flex-row flex-nowrap justify-center items-center gap-2 border-2 text-emerald-400 border-emerald-400 hover:bg-emerald-400 hover:text-white transition-colors mt-4 w-full max-w-64 p-2 rounded-md'
+            onClick={() => setIsOpen(true)}
+          >
+            <Plus size={20} />
+            Добавить задачу
+          </button>
         </div>
         <div className='flex flex-1 flex-col bg-slate-400 rounded-e-md h-full p-4 relative'>
           {showDescription()?.description}
@@ -42,7 +47,7 @@ const App = observer(() => {
                 rounded text-white
                 w-full max-w-64 p-2'
             >
-              <X size={16} />
+              <X size={20} />
               Удалить задачу
             </button>
           )}
