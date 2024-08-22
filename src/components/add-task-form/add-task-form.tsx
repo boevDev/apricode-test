@@ -29,6 +29,7 @@ export const AddTaskForm: React.FC<Props> = ({ onClose }) => {
         <div className='w-full flex flex-col p-2 rounded-t-md border-b border-slate-300 dark:border-slate-600'>
           <label className='mb-1'>Название задачи</label>
           <input
+            maxLength={50}
             placeholder='Введите название задачи'
             className='block rounded p-2 border-2 border-slate-300
                 text-inherit bg-clip-padding
