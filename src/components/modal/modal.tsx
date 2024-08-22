@@ -30,7 +30,7 @@ export const Modal: React.FC<Props> = ({
     >
       <div
         data-id='modal'
-        className='bg-white dark:bg-slate-800 rounded-md m-auto min-h-[320px] h-auto w-full max-w-[640px] relative p-6'
+        className='flex flex-col justify-between bg-white dark:bg-slate-800 rounded-md m-auto min-h-[320px] h-auto w-full max-w-[640px] relative p-6'
       >
         {children}
         <button

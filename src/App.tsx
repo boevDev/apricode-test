@@ -6,6 +6,7 @@ import {
   TaskInfo,
   TasksList,
   ThemeSwithcerButton,
+  WarningQuestion,
 } from './components';
 import taskList, { TaskType } from './store/task-list';
 import { useState } from 'react';
@@ -18,7 +19,9 @@ const getSelectedItem = () => {
 };
 
 const App = observer(() => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenAddTask, setIsOpenAddTask] = useState(false);
+  const [isOpenWarnCleanList, setIsOpenWarnCleanList] = useState(false);
+
   const selectedItem = getSelectedItem();
 
   return (
@@ -27,7 +30,7 @@ const App = observer(() => {
         <ThemeSwithcerButton />
         <button
           className='flex flex-row flex-nowrap justify-center items-center gap-2 border-2 text-red-500 border-red-500 hover:bg-red-500 hover:text-white transition-colors w-full max-w-64 p-2 rounded-md'
-          onClick={() => taskList.clearTaskList()}
+          onClick={() => setIsOpenWarnCleanList(true)}
         >
           <X size={20} />
           Очистить список задач
@@ -51,7 +54,7 @@ const App = observer(() => {
           )}
           <button
             className='flex flex-row flex-nowrap justify-center items-center gap-2 border-2 text-emerald-500 border-emerald-500 hover:bg-emerald-500 hover:text-white transition-colors mt-4 w-full max-w-64 p-2 rounded-md'
-            onClick={() => setIsOpen(true)}
+            onClick={() => setIsOpenAddTask((prev) => !prev)}
           >
             <Plus size={20} />
             Добавить задачу
@@ -59,8 +62,22 @@ const App = observer(() => {
         </div>
         {selectedItem && <TaskInfo task={selectedItem} />}
       </div>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <AddTaskForm onClose={() => setIsOpen(false)} />
+
+      <Modal isOpen={isOpenAddTask} onClose={() => setIsOpenAddTask(false)}>
+        <AddTaskForm onClose={() => setIsOpenAddTask(false)} />
+      </Modal>
+
+      <Modal
+        isOpen={isOpenWarnCleanList}
+        onClose={() => setIsOpenWarnCleanList(false)}
+      >
+        <WarningQuestion
+          onConfirm={() => taskList.clearTaskList()}
+          onClose={() => setIsOpenWarnCleanList(false)}
+        >
+          Вы действительно хотите очистить список задач? Восстановить их будет
+          уже невозможно!
+        </WarningQuestion>
       </Modal>
       <div id='modal'></div>
     </div>
