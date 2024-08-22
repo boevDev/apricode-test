@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ThemeSwithcerButton } from '../theme-switcher-button/theme-switcher-button';
+import { ThemeSwithcer } from '../theme-switcher/theme-switcher';
 import { X } from 'lucide-react';
 import { Modal } from '../modal/modal';
 import { WarningQuestion } from '../warning-question/warning-question';
@@ -10,7 +10,7 @@ export const Header: React.FC = () => {
 
   return (
     <header className='flex flex-row justify-between mb-4 items-center'>
-      <ThemeSwithcerButton />
+      <ThemeSwithcer />
       {taskList.list.length <= 0 ? null : (
         <button
           className='flex flex-row flex-nowrap justify-center items-center gap-2 border-2 text-red-500 border-red-500 hover:bg-red-500 hover:text-white transition-colors w-full max-w-64 p-2 rounded-md'

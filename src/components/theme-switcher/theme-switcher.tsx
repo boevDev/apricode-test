@@ -5,7 +5,7 @@ interface Props {
   className?: string;
 }
 
-export const ThemeSwithcerButton: React.FC<Props> = ({ className }) => {
+export const ThemeSwithcer: React.FC<Props> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   type Theme = 'light' | 'dark' | 'system';
