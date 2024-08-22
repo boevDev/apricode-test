@@ -28,8 +28,12 @@ class TaskList {
     this.list = this.list.filter((item) => item.id !== id);
   }
 
+  clearTaskList() {
+    this.list = [];
+  }
+
   // editTask(id?: number) {
-  //   this.list.
+  //   return this.list.
   // }
 
   setShowDescription(id: string) {

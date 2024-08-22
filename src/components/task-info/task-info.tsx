@@ -8,8 +8,7 @@ interface Props {
 
 export const TaskInfo: React.FC<Props> = ({ task }) => {
   return (
-    <div className='flex flex-1 flex-col justify-between bg-slate-400 rounded-e-md h-full p-4 relative'>
-      {task.description}
+    <div className='flex flex-1 flex-col justify-start bg-slate-200 rounded-e-md p-4 relative dark:bg-slate-700'>
       <div className='flex flex-row justify-center'>
         <button
           className='flex flex-row flex-nowrap 
@@ -34,6 +33,7 @@ export const TaskInfo: React.FC<Props> = ({ task }) => {
           Удалить задачу
         </button>
       </div>
+      <div className='overflow-y-auto mt-2 rounded-2xl'>{task.description}</div>
     </div>
   );
 };

@@ -1,10 +1,16 @@
 import { ChevronDown, ChevronUp, Moon, Sun, SunMoon } from 'lucide-react';
 import React, { useState } from 'react';
 
-export const ThemeSwithcerButton: React.FC = () => {
+interface Props {
+  className?: string;
+}
+
+export const ThemeSwithcerButton: React.FC<Props> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClick = (theme: 'light' | 'dark' | 'system') => {
+  type Theme = 'light' | 'dark' | 'system';
+
+  const selectTheme = (theme: Theme) => {
     if (theme === 'system') {
       localStorage.removeItem('theme');
     } else {
@@ -21,43 +27,46 @@ export const ThemeSwithcerButton: React.FC = () => {
       document.documentElement.classList.remove('dark');
     }
 
-    setIsOpen((prev) => !prev);
+    setIsOpen(false);
   };
 
   const list = [
     {
-      theme: 'light',
+      theme: 'light' as Theme,
       name: 'Светлая',
       icon: <Sun />,
     },
     {
-      theme: 'dark',
+      theme: 'dark' as Theme,
       name: 'Тёмная',
       icon: <Moon />,
     },
     {
-      theme: 'system',
+      theme: 'system' as Theme,
       name: 'Системная',
       icon: <SunMoon />,
     },
   ];
 
   return (
-    <div className='relative flex flex-col items-center w-[340px] h-[340px] rounded-lg'>
+    <div
+      id='theme-switcher'
+      className={`relative flex flex-col items-center w-full max-w-64 rounded-md ${className}`}
+    >
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className='bg-blue-400 p-4 w-full flex items-center justify-between font-bold text-lg rounded-lg tracking-wider border-4 border-transparent active:border-white duration-300 active:text-white'
+        className='bg-slate-200/20 shadow backdrop-blur p-4 w-full flex items-center justify-between font-bold text-base rounded-md tracking-wider border-4 border-transparent active:border-white duration-300 active:text-white'
       >
         Сменить тему
         {!isOpen ? <ChevronDown /> : <ChevronUp />}
       </button>
 
       {isOpen && (
-        <div className='bg-blue-400 absolute top-20 flex flex-col items-start rounded-lg p-2 w-full z-50'>
+        <div className='bg-slate-200/20 shadow backdrop-blur absolute top-20 flex flex-col items-start rounded-md p-2 w-full z-50'>
           {list.map((item, i) => (
             <button
-              onClick={() => handleClick(item.theme)}
-              className='flex w-full justify-between p-4 hover:bg-blue-300 cursor-pointer rounded-r-lg border-l-transparent hover:border-l-white border-l-4'
+              onClick={() => selectTheme(item.theme)}
+              className='flex w-full justify-between p-4 hover:bg-slate-200/50 cursor-pointer rounded-r-md border-l-transparent hover:border-l-white border-l-4'
               key={i}
             >
               <h3 className='font-bold'>{item.name}</h3>
