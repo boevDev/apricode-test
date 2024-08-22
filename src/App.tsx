@@ -25,7 +25,7 @@ const App = observer(() => {
   const selectedItem = getSelectedItem();
 
   return (
-    <div className='font-rubik h-screen p-8 bg-white dark:bg-slate-900 dark:text-white'>
+    <div className='font-rubik h-screen p-8 bg-white dark:bg-slate-900 dark:text-white w-full max-w-screen-xl m-auto'>
       <header className='flex flex-row justify-between mb-4 items-center'>
         <ThemeSwithcerButton />
         <button

@@ -32,9 +32,10 @@ class TaskList {
     this.list = [];
   }
 
-  // editTask(id?: number) {
-  //   return this.list.
-  // }
+  editTask(task: TaskType) {
+    this.list = this.list.map((item) => (item.id === task.id ? task : item));
+    console.log(this.list);
+  }
 
   setShowDescription(id: string) {
     this.showDescription = id;

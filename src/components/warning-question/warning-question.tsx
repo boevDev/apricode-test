@@ -28,7 +28,7 @@ export const WarningQuestion: React.FC<Props> = ({
           Нет
         </button>
         <button
-          className='bg-red-500 hover:bg-red-600 transition-colors w-full rounded-e'
+          className='bg-red-500 hover:bg-red-600 transition-colors w-full p-4 rounded-e'
           onClick={() => {
             onConfirm();
             onClose();

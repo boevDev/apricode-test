@@ -28,3 +28,25 @@ input[type="text"] {
 .dark{
 	background-color: #0f172a;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    background: #888;
+    border-radius: 0.25rem;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 0.25rem;
+}
+ 
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #1e293b;
+}
