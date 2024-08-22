@@ -1,10 +1,12 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import taskList from '../../store/task-list';
+import taskList, { TaskType } from '../../store/task-list';
 import TextareaAutosize from 'react-textarea-autosize';
 
 interface Props {
   onClose: () => void;
+  mode: 'add' | 'edit';
+  task?: TaskType;
 }
 
 interface MyForm {
@@ -12,11 +14,51 @@ interface MyForm {
   description: string;
 }
 
-export const AddTaskForm: React.FC<Props> = ({ onClose }) => {
+interface VariantsType {
+  mode: string;
+  action: (data: MyForm) => void;
+  textInButton: string;
+  colorButton?: string;
+}
+
+export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
+  const variantsList: VariantsType[] = [
+    {
+      mode: 'add',
+      action: (data) =>
+        taskList.addTask({
+          title: data.title,
+          description: data.description,
+        }),
+      textInButton: 'Добавить задачу',
+      colorButton: 'bg-emerald-500 hover:bg-emerald-600',
+    },
+    {
+      mode: 'edit',
+      action: (data) => {
+        if (task) {
+          taskList.editTask({
+            id: task.id,
+            title: data.title,
+            description: data.description,
+          });
+        } else {
+          console.error(
+            "Не удалось редактировать задачу: аргумент 'task' не передан."
+          );
+        }
+      },
+      textInButton: 'Изменить задачу',
+      colorButton: 'bg-yellow-500 hover:bg-yellow-600',
+    },
+  ];
+
+  const getVariant = variantsList.find((item) => item.mode === mode);
+
   const { register, handleSubmit } = useForm<MyForm>();
 
   const submit: SubmitHandler<MyForm> = (data) => {
-    taskList.addTask({ title: data.title, description: data.description });
+    getVariant?.action(data);
     onClose();
   };
 
@@ -29,6 +71,7 @@ export const AddTaskForm: React.FC<Props> = ({ onClose }) => {
         <div className='w-full flex flex-col p-2 rounded-t-md border-b border-slate-300 dark:border-slate-600'>
           <label className='mb-1'>Название задачи</label>
           <input
+            defaultValue={mode === 'edit' ? task?.title : ''}
             maxLength={50}
             placeholder='Введите название задачи'
             className='block rounded p-2 border-2 border-slate-300
@@ -45,6 +88,7 @@ export const AddTaskForm: React.FC<Props> = ({ onClose }) => {
         <div className='w-full flex flex-col p-2 rounded-b-md'>
           <label className='mb-1'>Описание задачи</label>
           <TextareaAutosize
+            defaultValue={mode === 'edit' ? task?.description : ''}
             minRows={4}
             placeholder='Введите описание задачи'
             className='block rounded p-2 border-2 border-slate-300
@@ -58,10 +102,14 @@ export const AddTaskForm: React.FC<Props> = ({ onClose }) => {
       </div>
 
       <button
-        className='text-white w-full font-bold text-lg bg-emerald-500 hover:bg-emerald-600 transition-colors mt-4 p-4 rounded-md'
+        className={`text-white w-full font-bold text-lg transition-colors mt-4 p-4 rounded-md ${
+          getVariant?.colorButton
+            ? getVariant?.colorButton
+            : 'bg-gray-500 hover:bg-gray-600'
+        }`}
         type='submit'
       >
-        Добавить задачу
+        {getVariant?.textInButton}
       </button>
     </form>
   );

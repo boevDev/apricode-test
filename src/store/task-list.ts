@@ -9,7 +9,28 @@ export interface TaskType {
 }
 
 class TaskList {
-  list: TaskType[] = [];
+  list: TaskType[] = [
+    {
+      id: '32fsdfsdfsdfsd',
+      title: 'Задача 1',
+      description: 'Описание 1',
+    },
+    {
+      id: '32fsdfsdfsdfsde42312',
+      title: 'Задача 2',
+      description: 'Описание 2',
+    },
+    {
+      id: '32fsdfsdfsdfsd111111',
+      title: 'Задача 3',
+      description: 'Описание 3',
+    },
+    {
+      id: '32fsdfsdfsdfsd222222',
+      title: 'Задача 4',
+      description: 'Описание 4',
+    },
+  ];
   showDescription?: string;
 
   constructor() {

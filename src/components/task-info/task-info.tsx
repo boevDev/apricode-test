@@ -3,7 +3,7 @@ import { Pencil, X } from 'lucide-react';
 import taskList, { TaskType } from '../../store/task-list';
 import { Modal } from '../modal/modal';
 import { WarningQuestion } from '../warning-question/warning-question';
-import { EditTaskForm } from '../edit-task-form/edit-task-form';
+import { TaskForm } from '../task-form/task-form';
 
 interface Props {
   task: TaskType;
@@ -63,7 +63,11 @@ export const TaskInfo: React.FC<Props> = ({ task }) => {
       </Modal>
 
       <Modal isOpen={isOpenEditTask} onClose={() => setIsOpenEditTask(false)}>
-        <EditTaskForm task={task} onClose={() => setIsOpenEditTask(false)} />
+        <TaskForm
+          mode='edit'
+          task={task}
+          onClose={() => setIsOpenEditTask(false)}
+        />
       </Modal>
     </>
   );
