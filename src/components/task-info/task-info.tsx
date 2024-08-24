@@ -4,6 +4,7 @@ import taskList, { TaskType } from '../../store/task-list';
 import { Modal } from '../modal/modal';
 import { WarningQuestion } from '../warning-question/warning-question';
 import { TaskForm } from '../task-form/task-form';
+import { Button } from '../button/button';
 
 interface Props {
   task: TaskType;
@@ -24,28 +25,22 @@ export const TaskInfo: React.FC<Props> = ({ task }) => {
         </div>
 
         <div className='flex flex-row justify-center mt-4 rounded shadow'>
-          <button
+          <Button
+            className='rounded-e-none'
+            color='yellow'
             onClick={() => setIsOpenEditTask(true)}
-            className='flex flex-row flex-nowrap 
-            gap-2 items-center justify-center
-          bg-yellow-500 hover:bg-yellow-600
-            rounded-l text-white
-            w-full p-2'
           >
             <Pencil size={16} />
-            Редактировать задачу
-          </button>
-          <button
+            Редактировать
+          </Button>
+          <Button
+            className='rounded-s-none'
+            color='red'
             onClick={() => setIsOpenWarnDeleteTask(true)}
-            className='flex flex-row flex-nowrap 
-            gap-2 items-center justify-center
-          bg-red-500 hover:bg-red-600
-            rounded-r text-white
-            w-full p-2'
           >
             <X size={20} />
-            Удалить задачу
-          </button>
+            Удалить
+          </Button>
         </div>
       </div>
       <Modal

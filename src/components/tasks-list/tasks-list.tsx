@@ -2,8 +2,9 @@ import React from 'react';
 
 interface Props {
   children: React.ReactNode;
+  className?: string;
 }
 
-export const TasksList: React.FC<Props> = ({ children }) => {
-  return <ul className='flex flex-col gap-1 w-full'>{children}</ul>;
+export const TasksList: React.FC<Props> = ({ children, className }) => {
+  return <ul className={`flex flex-col w-full ${className}`}>{children}</ul>;
 };

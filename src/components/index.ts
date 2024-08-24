@@ -6,3 +6,4 @@ export { TaskInfo } from './task-info/task-info';
 export { WarningQuestion } from './warning-question/warning-question';
 export { TaskForm } from './task-form/task-form';
 export { Header } from './header/header';
+export { Button } from './button/button';

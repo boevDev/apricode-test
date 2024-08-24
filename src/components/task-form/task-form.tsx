@@ -2,10 +2,13 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import taskList, { TaskType } from '../../store/task-list';
 import TextareaAutosize from 'react-textarea-autosize';
+import { Button, Color } from '../button/button';
+
+type Mode = 'add' | 'edit' | 'addSub';
 
 interface Props {
   onClose: () => void;
-  mode: 'add' | 'edit';
+  mode: Mode;
   task?: TaskType;
 }
 
@@ -15,32 +18,31 @@ interface MyForm {
 }
 
 interface VariantsType {
-  mode: string;
   action: (data: MyForm) => void;
   textInButton: string;
-  colorButton?: string;
+  colorButton?: Color;
 }
 
 export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
-  const variantsList: VariantsType[] = [
-    {
-      mode: 'add',
+  const variantsList: { [key in Mode]: VariantsType } = {
+    add: {
       action: (data) =>
         taskList.addTask({
           title: data.title,
           description: data.description,
+          subTasks: [],
         }),
       textInButton: 'Добавить задачу',
-      colorButton: 'bg-emerald-500 hover:bg-emerald-600',
+      colorButton: 'emerald',
     },
-    {
-      mode: 'edit',
+    edit: {
       action: (data) => {
         if (task) {
           taskList.editTask({
             id: task.id,
             title: data.title,
             description: data.description,
+            subTasks: [],
           });
         } else {
           console.error(
@@ -49,11 +51,31 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
         }
       },
       textInButton: 'Изменить задачу',
-      colorButton: 'bg-yellow-500 hover:bg-yellow-600',
+      colorButton: 'yellow',
     },
-  ];
+    addSub: {
+      action: (data) => {
+        if (task) {
+          taskList.addSubTask(
+            {
+              title: data.title,
+              description: data.description,
+              subTasks: [],
+            },
+            task.id
+          );
+        } else {
+          console.error(
+            "Не удалось редактировать задачу: аргумент 'task' не передан."
+          );
+        }
+      },
+      textInButton: 'Добавить подзадачу',
+      colorButton: 'emerald',
+    },
+  };
 
-  const getVariant = variantsList.find((item) => item.mode === mode);
+  const getVariant = variantsList[mode];
 
   const { register, handleSubmit } = useForm<MyForm>();
 
@@ -65,15 +87,21 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
   return (
     <form
       onSubmit={handleSubmit(submit)}
-      className='flex flex-col justify-between h-full'
+      className='flex flex-col justify-between h-full gap-4'
     >
       <div className='bg-slate-200 dark:bg-slate-700 rounded-md'>
         <div className='w-full flex flex-col p-2 rounded-t-md border-b border-slate-300 dark:border-slate-600'>
-          <label className='mb-1'>Название задачи</label>
+          <label className='mb-1'>
+            {mode === 'addSub' ? 'Название подзадачи' : 'Название задачи'}
+          </label>
           <input
             defaultValue={mode === 'edit' ? task?.title : ''}
             maxLength={64}
-            placeholder='Введите название задачи'
+            placeholder={
+              mode === 'addSub'
+                ? 'Введите название подзадачи'
+                : 'Введите название задачи'
+            }
             className='block rounded p-2 border-2 border-slate-300
                 text-inherit bg-clip-padding
                 bg-slate-50 text-base transition-all
@@ -86,11 +114,17 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
         </div>
 
         <div className='w-full flex flex-col p-2 rounded-b-md'>
-          <label className='mb-1'>Описание задачи</label>
+          <label className='mb-1'>
+            {mode === 'addSub' ? 'Описание подзадачи' : 'Описание задачи'}
+          </label>
           <TextareaAutosize
             defaultValue={mode === 'edit' ? task?.description : ''}
             minRows={4}
-            placeholder='Введите описание задачи'
+            placeholder={
+              mode === 'addSub'
+                ? 'Введите описание подзадачи'
+                : 'Введите описание задачи'
+            }
             className='block rounded p-2 border-2 border-slate-300
                 text-inherit bg-clip-padding
                 bg-slate-50 text-base transition-all
@@ -101,16 +135,9 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
         </div>
       </div>
 
-      <button
-        className={`text-white w-full font-bold text-lg transition-colors mt-4 p-4 rounded-md ${
-          getVariant?.colorButton
-            ? getVariant?.colorButton
-            : 'bg-gray-500 hover:bg-gray-600'
-        }`}
-        type='submit'
-      >
+      <Button color={getVariant?.colorButton}>
         {getVariant?.textInButton}
-      </button>
+      </Button>
     </form>
   );
 };

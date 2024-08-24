@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '../button/button';
 
 interface Props {
   children: React.ReactNode;
@@ -20,22 +21,24 @@ export const WarningQuestion: React.FC<Props> = ({
         <p className='font-medium text-lg'>{children}</p>
       </div>
 
-      <div className='flex flex-row justify-between text-lg'>
-        <button
-          className='bg-emerald-500 hover:bg-emerald-600 transition-colors w-full p-4 rounded-s'
-          onClick={() => onClose()}
-        >
-          Нет
-        </button>
-        <button
-          className='bg-red-500 hover:bg-red-600 transition-colors w-full p-4 rounded-e'
+      <div className='flex flex-row justify-between text-lg w-full'>
+        <Button
+          className='rounded-e-none'
+          color='red'
           onClick={() => {
             onConfirm();
             onClose();
           }}
         >
           Да
-        </button>
+        </Button>
+        <Button
+          className='rounded-s-none'
+          color='emerald'
+          onClick={() => onClose()}
+        >
+          Нет
+        </Button>
       </div>
     </>
   );

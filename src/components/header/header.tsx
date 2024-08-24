@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { Modal } from '../modal/modal';
 import { WarningQuestion } from '../warning-question/warning-question';
 import taskList from '../../store/task-list';
+import { Button } from '../button/button';
 
 export const Header: React.FC = () => {
   const [isOpenWarnCleanList, setIsOpenWarnCleanList] = useState(false);
@@ -12,13 +13,15 @@ export const Header: React.FC = () => {
     <header className='flex flex-row justify-between mb-4 items-center'>
       <ThemeSwithcer />
       {taskList.list.length <= 0 ? null : (
-        <button
-          className='flex flex-row flex-nowrap justify-center items-center gap-2 border-2 text-red-500 border-red-500 hover:bg-red-500 hover:text-white transition-colors w-full max-w-64 p-2 rounded-md'
+        <Button
+          size='xs'
+          color='red'
+          variant='outlined'
           onClick={() => setIsOpenWarnCleanList(true)}
         >
           <X size={20} />
           Очистить список задач
-        </button>
+        </Button>
       )}
 
       <Modal

@@ -5,12 +5,12 @@ export interface TaskType {
   id: string;
   title: string;
   description: string;
-  subTaskIDs?: string[];
+  subTasks: TaskType[];
 }
 
 class TaskList {
   list: TaskType[] = localStorage.list ? JSON.parse(localStorage.list) : [];
-  showDescription?: string;
+  selectedTaskID?: string;
 
   constructor() {
     makeAutoObservable(this);
@@ -21,8 +21,20 @@ class TaskList {
       id: uuidv4(),
       title: task.title,
       description: task.description,
+      subTasks: [],
     });
     localStorage.setItem('list', JSON.stringify(this.list));
+  }
+
+  addSubTask(task: Omit<TaskType, 'id'>, id: string) {
+    this.list
+      .find((item) => item.id === id)
+      ?.subTasks.push({
+        id: uuidv4(),
+        title: task.title,
+        description: task.description,
+        subTasks: [],
+      });
   }
 
   deleteTask(id: string) {
@@ -40,8 +52,8 @@ class TaskList {
     localStorage.setItem('list', JSON.stringify(this.list));
   }
 
-  setShowDescription(id: string) {
-    this.showDescription = id;
+  setSelectedTaskID(id: string) {
+    this.selectedTaskID = id;
   }
 }
 
