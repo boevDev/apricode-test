@@ -22,6 +22,8 @@ const App = observer(() => {
 
   const selectedItem = getSelectedItem();
 
+  console.log(taskList.list);
+
   return (
     <div className='font-rubik h-screen p-8 bg-white dark:bg-slate-900 dark:text-white w-full max-w-screen-xl m-auto'>
       <Header />

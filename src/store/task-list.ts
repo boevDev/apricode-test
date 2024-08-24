@@ -9,7 +9,7 @@ export interface TaskType {
 }
 
 class TaskList {
-  list: TaskType[] = [];
+  list: TaskType[] = localStorage.list ? JSON.parse(localStorage.list) : [];
   showDescription?: string;
 
   constructor() {
@@ -22,19 +22,22 @@ class TaskList {
       title: task.title,
       description: task.description,
     });
+    localStorage.setItem('list', JSON.stringify(this.list));
   }
 
   deleteTask(id: string) {
     this.list = this.list.filter((item) => item.id !== id);
+    localStorage.setItem('list', JSON.stringify(this.list));
   }
 
   clearTaskList() {
     this.list = [];
+    localStorage.removeItem('list');
   }
 
   editTask(task: TaskType) {
     this.list = this.list.map((item) => (item.id === task.id ? task : item));
-    console.log(this.list);
+    localStorage.setItem('list', JSON.stringify(this.list));
   }
 
   setShowDescription(id: string) {

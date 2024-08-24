@@ -72,7 +72,7 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
           <label className='mb-1'>Название задачи</label>
           <input
             defaultValue={mode === 'edit' ? task?.title : ''}
-            maxLength={50}
+            maxLength={64}
             placeholder='Введите название задачи'
             className='block rounded p-2 border-2 border-slate-300
                 text-inherit bg-clip-padding
