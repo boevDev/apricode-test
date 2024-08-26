@@ -34,12 +34,12 @@ export const TaskInfo: React.FC = observer(() => {
                 {taskList.activeTask.title}
               </h2>
               <Button
-                className='w-auto h-min p-0'
+                className='max-w-9 max-h-9 p-0'
                 color='red'
                 variant='outlined'
                 onClick={taskList.closeTask}
               >
-                <X size={24} />
+                <X />
               </Button>
             </div>
 
