@@ -14,20 +14,10 @@ class TaskList {
     ? JSON.parse(localStorage.tasks)
     : [];
   activeTask: TaskType | null = null;
-  taskTitle = '';
-  taskText = '';
 
   constructor() {
     makeAutoObservable(this);
   }
-
-  titleHandler = (str: string) => {
-    this.taskTitle = str;
-  };
-
-  textHandler = (str: string) => {
-    this.taskText = str;
-  };
 
   addTask = (task: { title: string; text: string }) => {
     this.taskArray.push({
@@ -51,8 +41,6 @@ class TaskList {
 
     this.taskArray = subTaskAdding(id, this.taskArray, task);
     localStorage.setItem('tasks', JSON.stringify(this.taskArray));
-    this.taskTitle = '';
-    this.taskText = '';
   };
 
   removeTask = (id: string) => {
