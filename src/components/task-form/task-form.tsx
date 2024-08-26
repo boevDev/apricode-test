@@ -4,6 +4,19 @@ import taskList from '../../store/task-list';
 import TextareaAutosize from 'react-textarea-autosize';
 import { Button, Color } from '../button/button';
 import { TaskType } from '../../types/task-type';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const schema = yup.object({
+  title: yup
+    .string()
+    .required('Пожалуйста, заполните название задачи!')
+    .min(3, 'Минимум 3 символа'),
+  text: yup
+    .string()
+    .required('Пожалуйста, заполните описание задачи!')
+    .min(12, 'Минимум 12 символов'),
+});
 
 type Mode = 'add' | 'edit' | 'addSub';
 
@@ -72,7 +85,11 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
 
   const getVariant = variantsList[mode];
 
-  const { register, handleSubmit } = useForm<MyForm>();
+  const { register, handleSubmit, formState } = useForm<MyForm>({
+    resolver: yupResolver(schema),
+  });
+
+  const { errors } = formState;
 
   const submit: SubmitHandler<MyForm> = (data) => {
     getVariant?.action(data);
@@ -97,15 +114,21 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
                 ? 'Введите название подзадачи'
                 : 'Введите название задачи'
             }
-            className='block rounded p-2 border-2 border-slate-300
+            className={`block rounded p-2 border-2
                 text-inherit bg-clip-padding
                 bg-slate-50 text-base transition-all
                 focus:outline-none focus:border-slate-400
-                dark:bg-slate-600 dark:border-slate-500 dark:focus:border-slate-400'
+                dark:bg-slate-600 dark:focus:border-slate-400
+                ${
+                  errors.title
+                    ? 'border-red-500 dark:border-red-500 focus:border-red-500/70 dark:focus:border-red-500/70'
+                    : 'border-slate-300 dark:border-slate-500 focus:border-slate-400 dark:focus:border-slate-400'
+                }`}
             autoFocus
             type='text'
             {...register('title')}
           />
+          <p className='mt-1 text-red-500'>{errors.title?.message}</p>
         </div>
 
         <div className='w-full flex flex-col p-2 rounded-b-md'>
@@ -120,13 +143,19 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
                 ? 'Введите описание подзадачи'
                 : 'Введите описание задачи'
             }
-            className='block rounded p-2 border-2 border-slate-300
+            className={`block rounded p-2 border-2 overflow-visible
                 text-inherit bg-clip-padding
                 bg-slate-50 text-base transition-all
-                focus:outline-none focus:border-slate-400
-                dark:bg-slate-600 dark:border-slate-500 dark:focus:border-slate-400'
+                focus:outline-none
+                dark:bg-slate-600
+                ${
+                  errors.text
+                    ? 'border-red-500 dark:border-red-500 focus:border-red-500/70 dark:focus:border-red-500/70'
+                    : 'border-slate-300 dark:border-slate-500 focus:border-slate-400 dark:focus:border-slate-400'
+                }`}
             {...register('text')}
           />
+          <p className='mt-1 text-red-500'>{errors.text?.message}</p>
         </div>
       </div>
 
