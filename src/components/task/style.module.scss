@@ -1,0 +1,11 @@
+.container {
+    &:hover {
+        .checkbox {
+            opacity: 1;
+        }
+    }
+}
+
+.checkbox {
+    opacity: .2;
+}

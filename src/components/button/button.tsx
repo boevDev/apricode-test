@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { ComponentPropsWithoutRef } from 'react';
 
 export type Color = 'blue' | 'red' | 'yellow' | 'emerald' | 'gray';
 
-interface Props {
+interface Props extends ComponentPropsWithoutRef<'button'> {
   className?: string;
   children?: React.ReactNode;
   color?: Color;
-  onClick?: () => void;
   variant?: 'contained' | 'outlined';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
@@ -15,9 +14,9 @@ export const Button: React.FC<Props> = ({
   className,
   children,
   color = 'blue',
-  onClick,
   variant = 'contained',
   size,
+  ...props
 }) => {
   const getStyle = () => {
     switch (variant) {
@@ -70,7 +69,7 @@ export const Button: React.FC<Props> = ({
 
   return (
     <button
-      onClick={onClick}
+      {...props}
       className={`flex flex-row flex-nowrap 
             gap-2 items-center justify-center
             rounded
