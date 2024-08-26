@@ -56,6 +56,7 @@ class TaskList {
   removeAllTasks = () => {
     this.taskArray = [];
     localStorage.removeItem('tasks');
+    this.activeTask = null;
   };
 
   completeToggler = (id: string) => {
@@ -70,6 +71,7 @@ class TaskList {
   editTask(id: string, task: TaskType) {
     this.taskArray = recursionReplace(id, this.taskArray, task);
     localStorage.setItem('tasks', JSON.stringify(this.taskArray));
+    this.activeTask = task;
   }
 }
 

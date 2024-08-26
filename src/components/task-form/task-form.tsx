@@ -58,7 +58,6 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
             isCompleted: false,
             subTasks: [],
           });
-          taskList.chooseTask(task.id);
         } else {
           console.error(
             "Не удалось редактировать задачу: аргумент 'task' не передан."
