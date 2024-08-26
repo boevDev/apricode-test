@@ -34,7 +34,7 @@ export const Task: React.FC<Props> = observer(({ taskItem }) => {
            }
             ${styles.container}`}
       >
-        <div className='flex flex-row flex-nowrap justify-start gap-2 items-center w-full'>
+        <div className='flex flex-row flex-nowrap justify-start gap-2 items-center w-full overflow-x-hidden'>
           <div>
             {subTasks.length > 0 && isSubTasksShown ? (
               <ChevronDown size={20} />

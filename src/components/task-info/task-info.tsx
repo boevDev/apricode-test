@@ -44,7 +44,7 @@ export const TaskInfo: React.FC = observer(() => {
               onClick={addModalToggler}
             >
               <Plus size={20} />
-              Подзадача
+              <span className='hidden lg:inline'>Подзадача</span>
             </Button>
             <Button
               className='rounded-none'
@@ -52,7 +52,7 @@ export const TaskInfo: React.FC = observer(() => {
               onClick={editModalToggler}
             >
               <Pencil size={16} />
-              Редактировать
+              <span className='hidden lg:inline'>Редактировать</span>
             </Button>
             <Button
               className='rounded-s-none'
@@ -60,7 +60,7 @@ export const TaskInfo: React.FC = observer(() => {
               onClick={removeModalToggler}
             >
               <X size={20} />
-              Удалить
+              <span className='hidden lg:inline'>Удалить</span>
             </Button>
           </div>
         </div>
