@@ -1,65 +1,58 @@
-import { ChevronDown, ChevronRight, Plus } from 'lucide-react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 import React, { useState } from 'react';
+import { TaskType } from '../../types/task-type';
+import { observer } from 'mobx-react-lite';
 import taskList from '../../store/task-list';
-import { Button } from '../button/button';
-import { Modal } from '../modal/modal';
-import { TasksList } from '../tasks-list/tasks-list';
-import { TaskForm } from '../task-form/task-form';
 
-interface Props {
-  id: string;
-  children: string;
-}
+type Props = {
+  taskItem: TaskType;
+};
 
-export const Task: React.FC<Props> = ({ children, id }) => {
-  const [isOpenTask, setIsOpenTask] = useState(false);
-  const [isOpenAddSubTask, setIsOpenAddSubTask] = useState(false);
+export const Task: React.FC<Props> = observer(({ taskItem }) => {
+  const { id, title, isCompleted, subTasks } = taskItem;
 
-  const selectedTask = taskList.list.find((task) => task.id === id);
+  const [isSubTasksShown, setIsSubTasksShown] = useState(false);
+
+  function subTasksToggler() {
+    setIsSubTasksShown((prevSubTasks) => !prevSubTasks);
+  }
 
   return (
     <>
       <button
         onClick={() => {
-          setIsOpenTask((prev) => !prev);
-          taskList.setSelectedTaskID(id);
+          subTasksToggler();
+          taskList.chooseTask(taskItem.id);
         }}
-        className='font-medium text-lg flex flex-row gap-2 justify-between items-center w-full hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md p-2 cursor-pointer transition-colors'
+        className={`flex flex-row gap-2 justify-between items-center w-full font-medium text-lg border-2 border-transparent
+           hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md p-2 cursor-pointer transition-colors
+           ${
+             taskList.activeTask?.id === taskItem.id &&
+             `border-slate-600 dark:border-slate-400 bg-slate-200 dark:bg-slate-700`
+           }`}
       >
-        <div className='flex flex-row gap-2 items-center w-full truncate'>
-          {isOpenTask ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
-          {children}
-        </div>
+        <div className='flex flex-row flex-nowrap justify-start gap-2 items-center w-full'>
+          <div>
+            {subTasks.length > 0 && isSubTasksShown ? (
+              <ChevronDown size={20} />
+            ) : (
+              <ChevronRight size={20} />
+            )}
+          </div>
 
-        <Modal
-          isOpen={isOpenAddSubTask}
-          onClose={() => setIsOpenAddSubTask(false)}
-        >
-          <TaskForm
-            onClose={() => setIsOpenAddSubTask(false)}
-            mode='addSub'
-            task={selectedTask}
-          />
-        </Modal>
+          <h2 className='truncate'>{title}</h2>
+        </div>
       </button>
-      {isOpenTask && (
-        <div className='pl-6'>
-          <TasksList>
-            {selectedTask?.subTasks.map((subTask) => (
-              <Task id={subTask.id} key={subTask.id}>
-                {subTask.title}
-              </Task>
+
+      {subTasks.length > 0 && isSubTasksShown && (
+        <div className='pl-5'>
+          <div className='pl-1 flex flex-col gap-1 border-s-2 border-slate-300 dark:border-slate-600'>
+            {subTasks.map((subTask) => (
+              <Task key={subTask.id} taskItem={subTask} />
             ))}
-          </TasksList>
-          <button
-            className='text-lg flex flex-row gap-2 justify-start items-center w-full text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md p-2 cursor-pointer transition-colors'
-            onClick={() => setIsOpenAddSubTask((prev) => !prev)}
-          >
-            <Plus size={20} />
-            Добавить подзадачу
-          </button>
+          </div>
         </div>
       )}
     </>
   );
-};
+});

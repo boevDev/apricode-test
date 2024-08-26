@@ -1,60 +1,90 @@
 import { makeAutoObservable } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
-
-export interface TaskType {
-  id: string;
-  title: string;
-  description: string;
-  subTasks: TaskType[];
-}
+import {
+  recursionFilter,
+  recursionCompleteToggler,
+  recursionSearch,
+  subTaskAdding,
+  recursionReplace,
+} from '../utils/utils';
+import { TaskType } from '../types/task-type';
 
 class TaskList {
-  list: TaskType[] = localStorage.list ? JSON.parse(localStorage.list) : [];
-  selectedTaskID?: string;
+  taskArray: TaskType[] = localStorage.tasks
+    ? JSON.parse(localStorage.tasks)
+    : [];
+  activeTask: TaskType | null = null;
+  taskTitle = '';
+  taskText = '';
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  addTask(task: Omit<TaskType, 'id'>) {
-    this.list.push({
+  titleHandler = (str: string) => {
+    this.taskTitle = str;
+  };
+
+  textHandler = (str: string) => {
+    this.taskText = str;
+  };
+
+  addTask = (task: { title: string; text: string }) => {
+    this.taskArray.push({
       id: uuidv4(),
       title: task.title,
-      description: task.description,
+      text: task.text,
+      isCompleted: false,
       subTasks: [],
     });
-    localStorage.setItem('list', JSON.stringify(this.list));
-  }
+    localStorage.setItem('tasks', JSON.stringify(this.taskArray));
+  };
 
-  addSubTask(task: Omit<TaskType, 'id'>, id: string) {
-    this.list
-      .find((item) => item.id === id)
-      ?.subTasks.push({
-        id: uuidv4(),
-        title: task.title,
-        description: task.description,
-        subTasks: [],
-      });
-  }
+  addSubtask = (id: string, taskData: { title: string; text: string }) => {
+    const task = {
+      id: uuidv4(),
+      title: taskData.title,
+      text: taskData.text,
+      isCompleted: false,
+      subTasks: [],
+    };
 
-  deleteTask(id: string) {
-    this.list = this.list.filter((item) => item.id !== id);
-    localStorage.setItem('list', JSON.stringify(this.list));
-  }
+    this.taskArray = subTaskAdding(id, this.taskArray, task);
+    localStorage.setItem('tasks', JSON.stringify(this.taskArray));
+    this.taskTitle = '';
+    this.taskText = '';
+  };
 
-  clearTaskList() {
-    this.list = [];
-    localStorage.removeItem('list');
-  }
+  removeTask = (id: string) => {
+    this.taskArray = recursionFilter(id, this.taskArray);
+    localStorage.setItem('tasks', JSON.stringify(this.taskArray));
 
-  editTask(task: TaskType) {
-    this.list = this.list.map((item) => (item.id === task.id ? task : item));
-    localStorage.setItem('list', JSON.stringify(this.list));
-  }
+    if (!this.taskArray.length) {
+      this.activeTask = null;
+      localStorage.removeItem('tasks');
+    }
+  };
 
-  setSelectedTaskID(id: string) {
-    this.selectedTaskID = id;
+  removeAllTasks = () => {
+    this.taskArray = [];
+    localStorage.removeItem('tasks');
+  };
+
+  completeToggler = (id: string) => {
+    this.taskArray = recursionCompleteToggler(id, this.taskArray);
+    localStorage.setItem('tasks', JSON.stringify(this.taskArray));
+  };
+
+  chooseTask = (id: string) => {
+    this.activeTask = recursionSearch(id, this.taskArray);
+  };
+
+  editTask(id: string, task: TaskType) {
+    this.taskArray = recursionReplace(id, this.taskArray, task);
+    localStorage.setItem('tasks', JSON.stringify(this.taskArray));
   }
 }
 
-export default new TaskList();
+const taskList = new TaskList();
+
+export default taskList;

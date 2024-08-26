@@ -65,7 +65,7 @@ export const ThemeSwithcer: React.FC<Props> = ({ className }) => {
       >
         <button
           onClick={() => setIsOpen((prev) => !prev)}
-          className='bg-slate-200/20 shadow backdrop-blur p-4 w-full flex items-center justify-between font-bold text-base rounded-md tracking-wider border-4 border-transparent active:border-white duration-300 active:text-white'
+          className='bg-slate-200/20 shadow backdrop-blur p-4 w-full flex items-center justify-between font-bold text-base rounded-md tracking-wider border-4 border-transparent active:border-slate-100 duration-300 active:text-slate-100'
         >
           Сменить тему
           {!isOpen ? <ChevronDown /> : <ChevronUp />}
@@ -76,7 +76,7 @@ export const ThemeSwithcer: React.FC<Props> = ({ className }) => {
             {list.map((item, i) => (
               <button
                 onClick={() => selectTheme(item.theme)}
-                className='flex w-full justify-between p-4 hover:bg-slate-200/50 cursor-pointer rounded-r-md border-l-transparent hover:border-l-white border-l-4'
+                className='flex w-full justify-between p-4 hover:bg-slate-200/50 cursor-pointer rounded-r-md border-l-transparent hover:border-l-slate-100 border-l-4'
                 key={i}
               >
                 <h3 className='font-bold'>{item.name}</h3>

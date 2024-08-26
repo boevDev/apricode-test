@@ -1,8 +1,9 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import taskList, { TaskType } from '../../store/task-list';
+import taskList from '../../store/task-list';
 import TextareaAutosize from 'react-textarea-autosize';
 import { Button, Color } from '../button/button';
+import { TaskType } from '../../types/task-type';
 
 type Mode = 'add' | 'edit' | 'addSub';
 
@@ -14,7 +15,7 @@ interface Props {
 
 interface MyForm {
   title: string;
-  description: string;
+  text: string;
 }
 
 interface VariantsType {
@@ -29,8 +30,7 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
       action: (data) =>
         taskList.addTask({
           title: data.title,
-          description: data.description,
-          subTasks: [],
+          text: data.text,
         }),
       textInButton: 'Добавить задачу',
       colorButton: 'emerald',
@@ -38,12 +38,14 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
     edit: {
       action: (data) => {
         if (task) {
-          taskList.editTask({
+          taskList.editTask(task.id, {
             id: task.id,
             title: data.title,
-            description: data.description,
+            text: data.text,
+            isCompleted: false,
             subTasks: [],
           });
+          taskList.chooseTask(task.id);
         } else {
           console.error(
             "Не удалось редактировать задачу: аргумент 'task' не передан."
@@ -56,14 +58,7 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
     addSub: {
       action: (data) => {
         if (task) {
-          taskList.addSubTask(
-            {
-              title: data.title,
-              description: data.description,
-              subTasks: [],
-            },
-            task.id
-          );
+          taskList.addSubtask(task.id, { title: data.title, text: data.text });
         } else {
           console.error(
             "Не удалось редактировать задачу: аргумент 'task' не передан."
@@ -118,7 +113,7 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
             {mode === 'addSub' ? 'Описание подзадачи' : 'Описание задачи'}
           </label>
           <TextareaAutosize
-            defaultValue={mode === 'edit' ? task?.description : ''}
+            defaultValue={mode === 'edit' ? task?.text : ''}
             minRows={4}
             placeholder={
               mode === 'addSub'
@@ -130,7 +125,7 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
                 bg-slate-50 text-base transition-all
                 focus:outline-none focus:border-slate-400
                 dark:bg-slate-600 dark:border-slate-500 dark:focus:border-slate-400'
-            {...register('description')}
+            {...register('text')}
           />
         </div>
       </div>

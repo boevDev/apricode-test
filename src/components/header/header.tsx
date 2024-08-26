@@ -12,7 +12,7 @@ export const Header: React.FC = () => {
   return (
     <header className='flex flex-row justify-between mb-4 items-center'>
       <ThemeSwithcer />
-      {taskList.list.length <= 0 ? null : (
+      {taskList.taskArray.length <= 0 ? null : (
         <Button
           size='xs'
           color='red'
@@ -29,7 +29,7 @@ export const Header: React.FC = () => {
         onClose={() => setIsOpenWarnCleanList(false)}
       >
         <WarningQuestion
-          onConfirm={() => taskList.clearTaskList()}
+          onConfirm={() => taskList.removeAllTasks()}
           onClose={() => setIsOpenWarnCleanList(false)}
         >
           Вы действительно хотите очистить список задач? Восстановить их будет
