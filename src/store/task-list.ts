@@ -68,6 +68,10 @@ class TaskList {
     this.activeTask = recursionSearch(id, this.taskArray);
   };
 
+  closeTask = () => {
+    this.activeTask = null;
+  };
+
   editTask(id: string, task: TaskType) {
     this.taskArray = recursionReplace(id, this.taskArray, task);
     localStorage.setItem('tasks', JSON.stringify(this.taskArray));

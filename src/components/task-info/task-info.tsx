@@ -29,9 +29,20 @@ export const TaskInfo: React.FC = observer(() => {
       <>
         <div className='flex flex-1 flex-col justify-between bg-slate-200 rounded-e-md p-4 relative dark:bg-slate-700'>
           <div className='overflow-y-auto'>
-            <h2 className='text-center text-lg font-bold'>
-              {taskList.activeTask.title}
-            </h2>
+            <div className='flex flex-row w-full pr-4'>
+              <h2 className='text-center text-lg font-bold w-full'>
+                {taskList.activeTask.title}
+              </h2>
+              <Button
+                className='w-auto h-min p-0'
+                color='red'
+                variant='outlined'
+                onClick={taskList.closeTask}
+              >
+                <X size={24} />
+              </Button>
+            </div>
+
             <p className='whitespace-pre-line mt-4 pr-4'>
               {taskList.activeTask.text}
             </p>
