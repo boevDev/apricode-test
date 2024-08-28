@@ -8,7 +8,6 @@ import {
   recursionReplace,
 } from '../utils/utils';
 import { TaskType } from '../types/task-type';
-
 class TaskList {
   taskArray: TaskType[] = localStorage.tasks
     ? JSON.parse(localStorage.tasks)
@@ -72,7 +71,17 @@ class TaskList {
     this.activeTask = null;
   };
 
-  editTask(id: string, task: TaskType) {
+  editTask(
+    id: string,
+    taskData: { title: string; text: string; subTasks: TaskType[] }
+  ) {
+    const task = {
+      id: id,
+      title: taskData.title,
+      text: taskData.text,
+      isCompleted: false,
+      subTasks: taskData.subTasks,
+    };
     this.taskArray = recursionReplace(id, this.taskArray, task);
     localStorage.setItem('tasks', JSON.stringify(this.taskArray));
     this.activeTask = task;

@@ -52,11 +52,9 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
       action: (data) => {
         if (task) {
           taskList.editTask(task.id, {
-            id: task.id,
             title: data.title,
             text: data.text,
-            isCompleted: false,
-            subTasks: [],
+            subTasks: task.subTasks,
           });
         } else {
           console.error(

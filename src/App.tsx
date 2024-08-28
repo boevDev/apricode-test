@@ -14,6 +14,8 @@ import taskList from './store/task-list';
 const App = observer(() => {
   const [isOpenAddTask, setIsOpenAddTask] = useState(false);
 
+  console.log(taskList.activeTask?.id);
+
   return (
     <div className='font-rubik h-screen p-8 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 w-full max-w-screen-xl m-auto'>
       <Header />
@@ -34,9 +36,11 @@ const App = observer(() => {
             Добавить задачу
           </Button>
         </div>
+
         {taskList.activeTask && (
           <>
-            <TaskInfo />
+            {/* <RecursiveRoutes /> */}
+            <TaskInfo taskItem={taskList.activeTask} />
             <Modal
               isOpen={isOpenAddTask}
               onClose={() => setIsOpenAddTask(false)}

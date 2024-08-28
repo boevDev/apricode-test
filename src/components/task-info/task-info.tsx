@@ -6,8 +6,13 @@ import { WarningQuestion } from '../warning-question/warning-question';
 import { TaskForm } from '../task-form/task-form';
 import { Button } from '../button/button';
 import { observer } from 'mobx-react-lite';
+import { TaskType } from '../../types/task-type';
 
-export const TaskInfo: React.FC = observer(() => {
+interface Props {
+  taskItem: TaskType;
+}
+
+export const TaskInfo: React.FC<Props> = observer(({ taskItem }) => {
   const [isShownAddModal, setIsShownAddModal] = useState(false);
   const [isShownEditModal, setIsShownEditModal] = useState(false);
   const [isShownRemoveModal, setIsShownRemoveModal] = useState(false);
@@ -29,9 +34,9 @@ export const TaskInfo: React.FC = observer(() => {
       <>
         <div className='flex flex-1 flex-col justify-between bg-slate-200 rounded-e-md p-4 relative dark:bg-slate-700'>
           <div className='overflow-y-auto'>
-            <div className='flex flex-row w-full pr-4'>
+            <div className='flex flex-row w-full'>
               <h2 className='text-center text-lg font-bold w-full'>
-                {taskList.activeTask.title}
+                {taskItem.title}
               </h2>
               <Button
                 className='max-w-9 max-h-9 p-0'
@@ -43,9 +48,7 @@ export const TaskInfo: React.FC = observer(() => {
               </Button>
             </div>
 
-            <p className='whitespace-pre-line mt-4 pr-4'>
-              {taskList.activeTask.text}
-            </p>
+            <p className='whitespace-pre-line mt-4 pr-4'>{taskItem.text}</p>
           </div>
 
           <div className='flex flex-row justify-center mt-4 rounded shadow'>
