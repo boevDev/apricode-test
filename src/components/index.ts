@@ -8,4 +8,3 @@ export { TaskForm } from './task-form/task-form';
 export { Header } from './header/header';
 export { Button } from './button/button';
 export { SwitchCheckbox } from './switch-checkbox/switch-checkbox';
-export { RecursiveRoutes } from './recursive-routes/recursive-routes';

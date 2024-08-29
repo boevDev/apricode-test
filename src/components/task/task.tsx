@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import taskList from '../../store/task-list';
 import { SwitchCheckbox } from '../switch-checkbox/switch-checkbox';
 import styles from './style.module.scss';
+import { useNavigate, useParams } from 'react-router-dom';
 
 type Props = {
   taskItem: TaskType;
@@ -12,6 +13,7 @@ type Props = {
 
 export const Task: React.FC<Props> = observer(({ taskItem }) => {
   const { id, title, isCompleted, subTasks } = taskItem;
+  const navigate = useNavigate();
 
   const [isSubTasksShown, setIsSubTasksShown] = useState(false);
 
@@ -19,19 +21,19 @@ export const Task: React.FC<Props> = observer(({ taskItem }) => {
     setIsSubTasksShown((prevSubTasks) => !prevSubTasks);
   }
 
+  const handleChooseTask = () => {
+    navigate(`/${id}`);
+  };
+
   return (
     <>
       <button
         onClick={() => {
           subTasksToggler();
-          taskList.chooseTask(id);
+          handleChooseTask();
         }}
         className={`flex flex-row gap-2 justify-between items-center w-full font-medium text-lg border-2 border-transparent
            hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md p-2 cursor-pointer transition-colors
-           ${
-             taskList.activeTask?.id === id &&
-             `border-slate-600 dark:border-slate-400 bg-slate-200 dark:bg-slate-700`
-           }
             ${styles.container}`}
       >
         <div className='flex flex-row flex-nowrap justify-start gap-2 items-center w-full overflow-x-hidden'>

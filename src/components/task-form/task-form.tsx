@@ -96,7 +96,7 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
   return (
     <form
       onSubmit={handleSubmit(submit)}
-      className='flex flex-col justify-between h-full gap-4'
+      className='flex flex-col justify-between gap-4'
     >
       <div className='bg-slate-200 dark:bg-slate-700 rounded-md'>
         <div className='w-full flex flex-col p-2 rounded-t-md border-b border-slate-300 dark:border-slate-600'>

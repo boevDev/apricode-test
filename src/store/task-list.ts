@@ -3,16 +3,15 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   recursionFilter,
   recursionCompleteToggler,
-  recursionSearch,
   subTaskAdding,
   recursionReplace,
 } from '../utils/utils';
 import { TaskType } from '../types/task-type';
+
 class TaskList {
   taskArray: TaskType[] = localStorage.tasks
     ? JSON.parse(localStorage.tasks)
     : [];
-  activeTask: TaskType | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -47,7 +46,6 @@ class TaskList {
     localStorage.setItem('tasks', JSON.stringify(this.taskArray));
 
     if (!this.taskArray.length) {
-      this.activeTask = null;
       localStorage.removeItem('tasks');
     }
   };
@@ -55,20 +53,11 @@ class TaskList {
   removeAllTasks = () => {
     this.taskArray = [];
     localStorage.removeItem('tasks');
-    this.activeTask = null;
   };
 
   completeToggler = (id: string) => {
     this.taskArray = recursionCompleteToggler(id, this.taskArray);
     localStorage.setItem('tasks', JSON.stringify(this.taskArray));
-  };
-
-  chooseTask = (id: string) => {
-    this.activeTask = recursionSearch(id, this.taskArray);
-  };
-
-  closeTask = () => {
-    this.activeTask = null;
   };
 
   editTask(
@@ -84,7 +73,6 @@ class TaskList {
     };
     this.taskArray = recursionReplace(id, this.taskArray, task);
     localStorage.setItem('tasks', JSON.stringify(this.taskArray));
-    this.activeTask = task;
   }
 }
 

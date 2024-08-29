@@ -5,9 +5,12 @@ import { Modal } from '../modal/modal';
 import { WarningQuestion } from '../warning-question/warning-question';
 import taskList from '../../store/task-list';
 import { Button } from '../button/button';
+import { useNavigate } from 'react-router-dom';
 
 export const Header: React.FC = () => {
   const [isOpenWarnCleanList, setIsOpenWarnCleanList] = useState(false);
+
+  const navigate = useNavigate();
 
   return (
     <header className='flex flex-row justify-between mb-4 items-center'>
@@ -29,7 +32,10 @@ export const Header: React.FC = () => {
         onClose={() => setIsOpenWarnCleanList(false)}
       >
         <WarningQuestion
-          onConfirm={() => taskList.removeAllTasks()}
+          onConfirm={() => {
+            taskList.removeAllTasks();
+            navigate('/');
+          }}
           onClose={() => setIsOpenWarnCleanList(false)}
         >
           Вы действительно хотите очистить список задач? Восстановить их будет
