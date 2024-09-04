@@ -3,5 +3,6 @@ export type TaskType = {
   title: string;
   text: string;
   isCompleted: boolean;
+  isShownSubtasks: boolean;
   subTasks: TaskType[];
 };

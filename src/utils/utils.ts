@@ -1,4 +1,4 @@
-import { TaskType } from '../types/task-type';
+import { TaskType } from "../types/task-type";
 
 type SubTaskAddingProps = (
   id: string,
@@ -100,6 +100,25 @@ export const subTasksCompleteToggler: CompleteTogglerProps = (array, state) => {
       isCompleted: state,
       subTasks: subTasksCompleteToggler(item.subTasks, state),
     });
+
+    return arr;
+  }, []);
+};
+
+export const recursionShownSubTasksToggler: RecursionProps = (id, array) => {
+  return array.reduce((arr: TaskType[], item) => {
+    if (item.id !== id) {
+      arr.push({
+        ...item,
+        subTasks: recursionShownSubTasksToggler(id, item.subTasks),
+      });
+    } else {
+      arr.push({
+        ...item,
+        isShownSubTasks:
+          item.subTasks.length > 0 ? !item.isShownSubTasks : false,
+      });
+    }
 
     return arr;
   }, []);

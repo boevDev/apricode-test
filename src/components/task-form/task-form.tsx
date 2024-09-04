@@ -1,24 +1,24 @@
-import React from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import taskList from '../../store/task-list';
-import TextareaAutosize from 'react-textarea-autosize';
-import { Button, Color } from '../button/button';
-import { TaskType } from '../../types/task-type';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import taskList from "../../store/task-list";
+import TextareaAutosize from "react-textarea-autosize";
+import { Button, Color } from "../button/button";
+import { TaskType } from "../../types/task-type";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const schema = yup.object({
   title: yup
     .string()
-    .required('Пожалуйста, заполните название задачи!')
-    .min(3, 'Минимум 3 символа'),
+    .required("Пожалуйста, заполните название задачи!")
+    .min(3, "Минимум 3 символа"),
   text: yup
     .string()
-    .required('Пожалуйста, заполните описание задачи!')
-    .min(12, 'Минимум 12 символов'),
+    .required("Пожалуйста, заполните описание задачи!")
+    .min(12, "Минимум 12 символов"),
 });
 
-type Mode = 'add' | 'edit' | 'addSub';
+type Mode = "add" | "edit" | "addSub";
 
 interface Props {
   onClose: () => void;
@@ -45,8 +45,8 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
           title: data.title,
           text: data.text,
         }),
-      textInButton: 'Добавить задачу',
-      colorButton: 'emerald',
+      textInButton: "Добавить задачу",
+      colorButton: "emerald",
     },
     edit: {
       action: (data) => {
@@ -55,6 +55,8 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
             title: data.title,
             text: data.text,
             subTasks: task.subTasks,
+            isCompleted: task.isCompleted,
+            isShownSubTasks: task.isShownSubTasks,
           });
         } else {
           console.error(
@@ -62,8 +64,8 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
           );
         }
       },
-      textInButton: 'Изменить задачу',
-      colorButton: 'yellow',
+      textInButton: "Изменить задачу",
+      colorButton: "yellow",
     },
     addSub: {
       action: (data) => {
@@ -75,8 +77,8 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
           );
         }
       },
-      textInButton: 'Добавить подзадачу',
-      colorButton: 'emerald',
+      textInButton: "Добавить подзадачу",
+      colorButton: "emerald",
     },
   };
 
@@ -96,20 +98,20 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
   return (
     <form
       onSubmit={handleSubmit(submit)}
-      className='flex flex-col justify-between gap-4'
+      className="flex flex-col justify-between gap-4"
     >
-      <div className='bg-slate-200 dark:bg-slate-700 rounded-md'>
-        <div className='w-full flex flex-col p-2 rounded-t-md border-b border-slate-300 dark:border-slate-600'>
-          <label className='mb-1'>
-            {mode === 'addSub' ? 'Название подзадачи' : 'Название задачи'}
+      <div className="bg-slate-200 dark:bg-slate-700 rounded-md">
+        <div className="w-full flex flex-col p-2 rounded-t-md border-b border-slate-300 dark:border-slate-600">
+          <label className="mb-1">
+            {mode === "addSub" ? "Название подзадачи" : "Название задачи"}
           </label>
           <input
-            defaultValue={mode === 'edit' ? task?.title : ''}
+            defaultValue={mode === "edit" ? task?.title : ""}
             maxLength={64}
             placeholder={
-              mode === 'addSub'
-                ? 'Введите название подзадачи'
-                : 'Введите название задачи'
+              mode === "addSub"
+                ? "Введите название подзадачи"
+                : "Введите название задачи"
             }
             className={`block rounded p-2 border-2
                 text-inherit bg-clip-padding
@@ -118,27 +120,27 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
                 dark:bg-slate-600 dark:focus:border-slate-400
                 ${
                   errors.title
-                    ? 'border-red-500 dark:border-red-500 focus:border-red-500/70 dark:focus:border-red-500/70'
-                    : 'border-slate-300 dark:border-slate-500 focus:border-slate-400 dark:focus:border-slate-400'
+                    ? "border-red-500 dark:border-red-500 focus:border-red-500/70 dark:focus:border-red-500/70"
+                    : "border-slate-300 dark:border-slate-500 focus:border-slate-400 dark:focus:border-slate-400"
                 }`}
             autoFocus
-            type='text'
-            {...register('title')}
+            type="text"
+            {...register("title")}
           />
-          <p className='mt-1 text-red-500'>{errors.title?.message}</p>
+          <p className="mt-1 text-red-500">{errors.title?.message}</p>
         </div>
 
-        <div className='w-full flex flex-col p-2 rounded-b-md'>
-          <label className='mb-1'>
-            {mode === 'addSub' ? 'Описание подзадачи' : 'Описание задачи'}
+        <div className="w-full flex flex-col p-2 rounded-b-md">
+          <label className="mb-1">
+            {mode === "addSub" ? "Описание подзадачи" : "Описание задачи"}
           </label>
           <TextareaAutosize
-            defaultValue={mode === 'edit' ? task?.text : ''}
+            defaultValue={mode === "edit" ? task?.text : ""}
             minRows={4}
             placeholder={
-              mode === 'addSub'
-                ? 'Введите описание подзадачи'
-                : 'Введите описание задачи'
+              mode === "addSub"
+                ? "Введите описание подзадачи"
+                : "Введите описание задачи"
             }
             className={`block rounded p-2 border-2 overflow-visible
                 text-inherit bg-clip-padding
@@ -147,12 +149,12 @@ export const TaskForm: React.FC<Props> = ({ onClose, mode, task }) => {
                 dark:bg-slate-600
                 ${
                   errors.text
-                    ? 'border-red-500 dark:border-red-500 focus:border-red-500/70 dark:focus:border-red-500/70'
-                    : 'border-slate-300 dark:border-slate-500 focus:border-slate-400 dark:focus:border-slate-400'
+                    ? "border-red-500 dark:border-red-500 focus:border-red-500/70 dark:focus:border-red-500/70"
+                    : "border-slate-300 dark:border-slate-500 focus:border-slate-400 dark:focus:border-slate-400"
                 }`}
-            {...register('text')}
+            {...register("text")}
           />
-          <p className='mt-1 text-red-500'>{errors.text?.message}</p>
+          <p className="mt-1 text-red-500">{errors.text?.message}</p>
         </div>
       </div>
 
