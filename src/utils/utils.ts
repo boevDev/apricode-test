@@ -1,4 +1,4 @@
-import { TaskType } from "../types/task-type";
+import { TaskType } from '../types/task-type';
 
 type SubTaskAddingProps = (
   id: string,
