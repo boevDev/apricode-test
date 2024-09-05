@@ -23,7 +23,7 @@ export const Task: React.FC<Props> = observer(({ taskItem }) => {
 
   return (
     <>
-      <button
+      <div
         onClick={() => {
           handleChooseTask();
         }}
@@ -60,7 +60,7 @@ export const Task: React.FC<Props> = observer(({ taskItem }) => {
             onChange={() => taskList.completeToggler(id)}
           />
         </div>
-      </button>
+      </div>
 
       {isShownSubTasks && (
         <div className='pl-5'>
